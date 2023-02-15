@@ -1,5 +1,7 @@
 package com.example.braingame;
 
+import static com.example.braingame.Config.seekBar;
+
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
@@ -9,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -119,13 +122,15 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
         {
             runnable = new Runnable() {
                 public void run() {
+
                     holder.mask.setVisibility(View.VISIBLE);
                 }
             };
             handler.postAtTime(runnable, System.currentTimeMillis() + interval);
             handler.postDelayed(runnable, interval);
             holder.relativeLayout.setOnClickListener(v -> {
-                if (click == 1 && (Config.seekBar.getProgress()<120)) {
+
+                if (click == 1 && (seekBar.getProgress()<120)) {
                     holder.mask.setVisibility(View.INVISIBLE);
                     pos1 = holder.getAdapterPosition();
                     view = holder.mask;
@@ -139,7 +144,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
                     handler.postDelayed(runnable, 100);
                     System.out.println("first click");
                 }
-                if (click == 2 && (Config.seekBar.getProgress()<120)) {
+                if (click == 2 && (seekBar.getProgress()<120)) {
                     holder.mask.setVisibility(View.INVISIBLE);
                     pos2 = holder.getAdapterPosition();
                     click = 3;
@@ -181,12 +186,14 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
         ImageView imageView;
         TextView textView;
         View mask;
+        SeekBar seekBar;
         RelativeLayout relativeLayout;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView=itemView.findViewById(R.id.grid_img);
             textView=itemView.findViewById(R.id.level);
             mask=itemView.findViewById(R.id.mask);
+            seekBar=itemView.findViewById(R.id.seekbar);
             relativeLayout=itemView.findViewById(R.id.relative);
         }
     }

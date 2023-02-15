@@ -24,17 +24,17 @@ public class MainActivity3 extends AppCompatActivity {
     List<String> arrayList;
     ImageAdapter imageAdapter;
     RelativeLayout relativeLayout;
-    SeekBar seekBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main3);
         recyclerView = findViewById(R.id.re_img);
-        seekBar=findViewById(R.id.seekbar);
+        Config.seekBar=findViewById(R.id.seekbar);
 
         if (Config.outerLevel == 1) {
-            seekBar.setVisibility(View.GONE);
+            Config.seekBar.setVisibility(View.GONE);
             levelNo = getIntent().getIntExtra("level", 0);
             if (levelNo > 0 && levelNo <= 3) {
                 numOfImage = 6;
@@ -70,20 +70,22 @@ public class MainActivity3 extends AppCompatActivity {
         }
         if (Config.outerLevel == 2) {
 
-            seekBar.setMax(120);
-            seekBar.setVisibility(View.VISIBLE);
+            Config.seekBar.setMax(120);
+            Config.seekBar.setVisibility(View.VISIBLE);
             Timer timer=new Timer();
             timer.schedule(new TimerTask() {
                 @Override
                 public void run()
                 {
                     Config.t++;
-                    seekBar.setProgress(Config.t);
+                    Config.seekBar.setProgress(Config.t);
                 }
-            }, 10000, 1000);
-            if(seekBar.getProgress()==120)
+            }, 10000, 100);
+            if(Config.seekBar.getProgress()==120)
             {
                 relativeLayout.setClickable(false);
+                Config.seekBar.setMax(0);
+                Config.seekBar.setProgress(0);
             }
 
             levelNo = getIntent().getIntExtra("level", 0);
@@ -101,6 +103,7 @@ public class MainActivity3 extends AppCompatActivity {
                 row = 5;
                 System.out.println("3-No of images=" + numOfImage + "\t" + "num of Columns=" + column);
             }
+
             String[] images = new String[0];
             try {
                 images = getAssets().list("");
