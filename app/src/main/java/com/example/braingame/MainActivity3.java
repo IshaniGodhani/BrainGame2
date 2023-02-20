@@ -1,9 +1,11 @@
 package com.example.braingame;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -26,6 +28,7 @@ public class MainActivity3 extends AppCompatActivity {
     RelativeLayout relativeLayout;
 
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +73,28 @@ public class MainActivity3 extends AppCompatActivity {
         }
         if (Config.outerLevel == 2) {
 
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//                Config.seekBar.setMin(0);
+//            }
+            if (getIntent().getExtras()!=null)
+            {
+                Config.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+                        seekBar.setMin(0);
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+
+                    }
+                });
+            }
             Config.seekBar.setMax(120);
             Config.seekBar.setVisibility(View.VISIBLE);
             Timer timer=new Timer();
@@ -80,12 +105,12 @@ public class MainActivity3 extends AppCompatActivity {
                     Config.t++;
                     Config.seekBar.setProgress(Config.t);
                 }
-            }, 10000, 100);
+            }, 1000, 100);
             if(Config.seekBar.getProgress()==120)
             {
                 relativeLayout.setClickable(false);
-                Config.seekBar.setMax(0);
-                Config.seekBar.setProgress(0);
+
+
             }
 
             levelNo = getIntent().getIntExtra("level", 0);
